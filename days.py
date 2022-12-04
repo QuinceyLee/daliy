@@ -92,9 +92,9 @@ def get_month_duration(month_day, begin_name):
     solar_year = int(ndt.year)
     solar_day = int(month_day)
     loan_name = begin_name.split("-")[0]
-    loan_card_name = begin_name.split("-")[0]
-    loan_card_id = begin_name.split("-")[1]
-    if ndt.day < month_day:
+    loan_card_name = begin_name.split("-")[1]
+    loan_card_id = begin_name.split("-")[2]
+    if ndt.day > int(month_day):
         if ndt.month == 12:
             begin_date = date(solar_year + 1, 1, solar_day)
         else:
@@ -105,8 +105,8 @@ def get_month_duration(month_day, begin_name):
         duration_day = 0
         duration_tip = f"🌟 {loan_name}就是今天,不要逾期咯"
     else:
-        duration_day = begin_date - today
-        duration_tip = f"🗓️ 距离{loan_name}还有 {abs(duration_day.days)} 天 银行{loan_card_name} 卡号 {loan_card_id} "
+        duration_day = int(abs((begin_date - today).days))
+        duration_tip = f"🗓️ 距离{loan_name}还有 {duration_day} 天 银行{loan_card_name} 卡号 {loan_card_id} "
     return duration_tip, duration_day
 
 

@@ -79,6 +79,7 @@ def handle_msg():
 
     # 加入日期提醒数据
     days_tip = days.get_map_days()
+    print(days_tip)
     if days_tip:
         info_list.append(days_tip)
         multi_list.append(handle_multi(
