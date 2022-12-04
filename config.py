@@ -12,15 +12,15 @@ import os
 SYS_CONFIG = {
     # 企业微信企业ID，非必填
     # 需要发送企业微信消息时必填
-    "corpid": "",
+    "corpid": "wwa181b17398d17286",
 
     # 企业微信应用Secret，非必填
     # 需要发送企业微信消息时必填
-    "corpsecret": "",
+    "corpsecret": "Sew8cwevx6gAUxRnUWPsb3vTvM9H_F12BJCLfF0mq8I",
 
     # 企业微信AgentId，非必填
     # 需要发送企业微信消息时必填
-    "agentid": "",
+    "agentid": "1000002",
 
     # 测试号appID，非必填
     # 需要测试号发送时必填
@@ -110,7 +110,7 @@ SYS_CONFIG = {
 
     # 自定义标题，非必填
     # 例如：今天的推送来啦！
-    "title": "",
+    "title": "title",
 
     # 自定义第一段内容，非必填
     # 例如：记得喝水水哦~
@@ -124,7 +124,7 @@ SYS_CONFIG = {
     # 需要疫情数据功能时必填
     # 只能是市级，多城市以&&分隔
     # 例如：成都&&南京
-    "yqcity": "",
+    "yqcity": "深圳",
 
     # 天行数据APIKEY，非必填
     # 需要彩虹屁功能时必填
