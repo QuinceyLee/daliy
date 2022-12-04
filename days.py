@@ -15,6 +15,8 @@ import random
 nowdatetime = (datetime.utcnow() + timedelta(hours=8))
 targetday_list = config.get_list("targetday")
 targetname_list = config.get_list("targetname")
+month_day_list = config.get_list("month_day")
+month_day_name_list = config.get_list("month_day_name")
 beginday_list = config.get_list("beginday")
 beginname_list = config.get_list("beginname")
 call = config.get("call")
@@ -84,6 +86,30 @@ def get_duration(begin_day, begin_name):
     return (duration_tip, duration_day)
 
 
+def get_month_duration(month_day, begin_name):
+    ndt = nowdatetime
+    today = date(ndt.year, ndt.month, ndt.day)
+    solar_year = int(ndt.year)
+    solar_day = int(month_day)
+    loan_name = begin_name.split("-")[0]
+    loan_card_name = begin_name.split("-")[0]
+    loan_card_id = begin_name.split("-")[1]
+    if ndt.day < month_day:
+        if ndt.month == 12:
+            begin_date = date(solar_year + 1, 1, solar_day)
+        else:
+            begin_date = date(solar_year, ndt.month + 1, solar_day)
+    else:
+        begin_date = date(solar_year, ndt.month, solar_day)
+    if today == begin_date:
+        duration_day = 0
+        duration_tip = f"🌟 {loan_name}就是今天,不要逾期咯"
+    else:
+        duration_day = begin_date - today
+        duration_tip = f"🗓️ 距离{loan_name}还有 {abs(duration_day.days)} 天 银行{loan_card_name} 卡号 {loan_card_id} "
+    return duration_tip, duration_day
+
+
 # 获取第一个元素
 def get_elemzero(elem):
     return elem[0]
@@ -126,12 +152,26 @@ def get_map_days():
             print("获取单日数据错误，检查单日beginname与beginday数量是否相等")
     else:
         print("未配置单日")
+    if month_day_list or month_day_name_list:
+        if len(month_day_list) == len(month_day_name_list):
+            try:
+                begin_res = list(
+                    map(get_month_duration, month_day_list, month_day_name_list))
+                days_list.extend(begin_res)
+            except Exception as e:
+                print("获取单日数据错误，请检查月单日beginname与beginday填写是否正确", e)
+                return None
+        else:
+            print("获取月单日数据错误，检查月单日month_day_list与month_day_name_list数量是否相等")
+    else:
+        print("未配置月单日")
     days_list = list(filter(None, days_list))
     if days_list:
         days_list.sort(key=get_elemone)
         res = list(map(get_elemzero, days_list))
         days_tip = "\n".join(res)
     return days_tip
+
 
 # 获取今天
 def get_today():
@@ -164,6 +204,8 @@ def get_today():
 
 # 获取随机颜文字
 def get_emoticon():
-    emoticon_list = ["(￣▽￣)~*", "(～￣▽￣)～", "︿(￣︶￣)︿", "~(￣▽￣)~*", "(oﾟ▽ﾟ)o", "ヾ(✿ﾟ▽ﾟ)ノ", "٩(๑❛ᴗ❛๑)۶", "ヾ(◍°∇°◍)ﾉﾞ", "ヾ(๑╹◡╹)ﾉ", "(๑´ㅂ`๑)", "(*´ﾟ∀ﾟ｀)ﾉ", "(´▽`)ﾉ", "ヾ(●´∀｀●)",
-                     "(｡◕ˇ∀ˇ◕)", "(≖ᴗ≖)✧", "(◕ᴗ◕✿)", "(❁´◡`❁)*✲ﾟ*", "(๑¯∀¯๑)", "(*´・ｖ・)", "(づ｡◕ᴗᴗ◕｡)づ", "o(*￣▽￣*)o", "(｀・ω・´)", "( • ̀ω•́ )✧", "ヾ(=･ω･=)o", "(￣３￣)a", "(灬°ω°灬)", "ヾ(•ω•`。)", "｡◕ᴗ◕｡"]
+    emoticon_list = ["(￣▽￣)~*", "(～￣▽￣)～", "︿(￣︶￣)︿", "~(￣▽￣)~*", "(oﾟ▽ﾟ)o", "ヾ(✿ﾟ▽ﾟ)ノ", "٩(๑❛ᴗ❛๑)۶", "ヾ(◍°∇°◍)ﾉﾞ",
+                     "ヾ(๑╹◡╹)ﾉ", "(๑´ㅂ`๑)", "(*´ﾟ∀ﾟ｀)ﾉ", "(´▽`)ﾉ", "ヾ(●´∀｀●)",
+                     "(｡◕ˇ∀ˇ◕)", "(≖ᴗ≖)✧", "(◕ᴗ◕✿)", "(❁´◡`❁)*✲ﾟ*", "(๑¯∀¯๑)", "(*´・ｖ・)", "(づ｡◕ᴗᴗ◕｡)づ", "o(*￣▽￣*)o",
+                     "(｀・ω・´)", "( • ̀ω•́ )✧", "ヾ(=･ω･=)o", "(￣３￣)a", "(灬°ω°灬)", "ヾ(•ω•`。)", "｡◕ᴗ◕｡"]
     return random.choice(emoticon_list)

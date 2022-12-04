@@ -151,6 +151,7 @@ def send_msg():
         wecom_tip = ""
         wecom_res = 0
         if corpid and corpsecret and agentid:
+            print(msg_data)
             wecom_res = send_wecom(msg_data)
             wecom_tip = "企业微信发送成功" if wecom_res == 1 else "企业微信发送失败，请检查日志"
         else:
